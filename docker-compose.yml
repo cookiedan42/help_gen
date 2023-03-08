@@ -1,0 +1,11 @@
+version: '3.9'
+
+services:
+  frontend:
+    container_name: "help_gen"
+    build: 
+      context: ./help_gen
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
