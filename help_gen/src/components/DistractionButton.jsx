@@ -21,9 +21,9 @@ export default class DistractionButton extends Component {
         return (
             <div class="areaDiv" >
                 <h1>Distraction tips</h1>
-                <button style={{height:"50px", width:"50%"}} onClick={()=>this.handleClick("low")}> generate</button>
-                <button style={{height:"50px", width:"50%"}} onClick={()=>this.handleClick("med")}> generate</button>
-                <button style={{height:"50px", width:"50%"}} onClick={()=>this.handleClick("high")}> generate</button>
+                <button style={{height:"50px", width:"50%"}} onClick={()=>this.handleClick("low")}>low effort</button>
+                <button style={{height:"50px", width:"50%"}} onClick={()=>this.handleClick("med")}>medium effort</button>
+                <button style={{height:"50px", width:"50%"}} onClick={()=>this.handleClick("high")}>high effort</button>
                 {/* <div dangerouslySetInnerHTML={{ __html: data[this.state.index] }}></div> */}
                 <div dangerouslySetInnerHTML={{ __html: this.state.body }}></div>
             </div>
