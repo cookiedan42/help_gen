@@ -28,4 +28,4 @@ jobs:
       with:
 #         deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./help_gen/build
+        publish_dir: ./build
