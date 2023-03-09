@@ -14,70 +14,58 @@ def scrape_grounding():
     grounding = soup.find("ol").find_all("li")
     grounding = [str(g.find("p")) for g in grounding]
     with open(path,"w") as fp:
-        json.dump(grounding,fp)
+        json.dump(grounding,fp,indent=1)
 
 
-# scrape_grounding()
+def clean_distraction(body):
+    effort_list = []
+    for i in body.children:
+        if i.text.strip()[:-2].isdecimal():
+            new_tag = BeautifulSoup.new_tag("p")
+            effort_list += [new_tag]
+        elif i.text == "":
+            pass
+        else:
+            effort_list[-1].contents.append(i)
+    return effort_list
 
+def scrape_distraction():
+    url = "https://www.beautyafterbruises.org/blog/distraction101"
 
+    r = requests.get(url)
+    soup = BeautifulSoup(r.content, 'html.parser')
 
+    low_effort_header = soup.find("h3")
+    med_effort_header = low_effort_header.find_next_sibling("h3")
+    high_effort_header = med_effort_header.find_next_sibling("h3")
 
+    low_effort_body = low_effort_header.find_next_sibling("ol")
+    med_effort_body  = med_effort_header.find_next_sibling("p")
+    high_effort_body  = high_effort_header.find_next_sibling("p")
 
-url = "https://www.beautyafterbruises.org/blog/distraction101"
+    low_effort_list = [i.find("p")for i in low_effort_body.find_all("li")]
 
-r = requests.get(url)
-soup = BeautifulSoup(r.content, 'html.parser')
+    med_effort_list =  clean_distraction(med_effort_body)
 
-# body = soup.find("div",id="yui_3_17_2_1_1678264151102_350")
-low_effort_header = soup.find("h3")
-med_effort_header = low_effort_header.find_next_sibling("h3")
-high_effort_header = med_effort_header.find_next_sibling("h3")
+    high_effort_list = clean_distraction(high_effort_body)
 
-# print(low_effort_header,med_effort_header,high_effort_header)
+    d = {
+        "low": [str(i) for i in low_effort_list],
+        "med": [str(i) for i in med_effort_list],
+        "high": [str(i) for i in high_effort_list]
+        }
 
-low_effort_body = low_effort_header.find_next_sibling("ol")
-med_effort_body  = med_effort_header.find_next_sibling("p")
-high_effort_body  = high_effort_header.find_next_sibling("p")
+    path = "../help_gen/src/data/distraction.json"
 
-low_effort_list = [i.find("p")for i in low_effort_body.find_all("li")]
+    with open(path,"w") as fp:
+        json.dump(d,fp,indent=1)
 
-med_effort_list = []
-for i in med_effort_body.children:
-    if i.text.strip()[:-2].isdecimal():
-        # use 61. as entry header
-        new_tag = soup.new_tag("p")
-        med_effort_list += [new_tag]
-    elif i.text == "":
-        # skip newlines
-        pass
-    else:
-        med_effort_list[-1].contents.append(i)
-
-high_effort_list = []
-for i in high_effort_body.children:
-    if i.text.strip()[:-2].isdecimal():
-        # use 61. as entry header
-        new_tag = soup.new_tag("p")
-        high_effort_list += [new_tag]
-    elif i.text == "":
-        # skip newlines
-        pass
-    else:
-        high_effort_list[-1].contents.append(i)
-
-
-d = {
-    "low": [str(i) for i in low_effort_list],
-    "med": [str(i) for i in med_effort_list],
-    "high": [str(i) for i in high_effort_list]
-    }
-
-
-with open("./distraction.json","w") as fp:
-    json.dump(d,fp,indent=1)
-
-url = "https://www.beautyafterbruises.org/blog/selfcare"
+# url = "https://www.beautyafterbruises.org/blog/selfcare"
 
 
 # h3 low impact header
 # medium and high are part of the list
+
+
+
+scrape_grounding()
