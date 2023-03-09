@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import data from '../data/distraction.json'
+import data from '../data/selfcare.json'
 
-export default class DistractionButton extends Component {
+export default class CareButton extends Component {
 
     constructor(props){
         super(props)
@@ -20,7 +20,7 @@ export default class DistractionButton extends Component {
 
         return (
             <div class="areaDiv" >
-                <h1>Distraction tips</h1>
+                <h1>Self Care tips</h1>
                 <button style={{height:"50px", width:"50%"}} onClick={()=>this.handleClick("low")}>low effort</button>
                 <br/>
                 <button style={{height:"50px", width:"50%"}} onClick={()=>this.handleClick("med")}>medium effort</button>

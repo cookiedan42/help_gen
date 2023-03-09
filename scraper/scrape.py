@@ -60,13 +60,42 @@ def scrape_distraction():
     with open(path,"w") as fp:
         json.dump(d,fp,indent=1)
 
-# url = "https://www.beautyafterbruises.org/blog/selfcare"
+def scrape_selfcare():
+    url = "https://www.beautyafterbruises.org/blog/selfcare"
+    path =  "../help_gen/src/data/selfcare.json"
+
+    r = requests.get(url)
+    soup = BeautifulSoup(r.content, 'html.parser')
+    care = soup.find("ol").find_all("li")
 
 
-# h3 low impact header
-# medium and high are part of the list
+    low = []
+    med = []
+    high = []
+
+    arr = [low,med,high]
+    ind = 0
+    for i in care:
+        if i.find("h3"):
+            # print(i)
+            for j in i:
+                if j.text == "":
+                    continue
+                if j.name == "h3":
+                    ind+=1
+        
+        arr[ind].append(str(i.find("p")))
+
+    d = {
+        "low":low,
+        "med":med,
+        "high":high
+        }
+
+    with open(path,"w") as fp:
+        json.dump(d,fp,indent=1)
 
 
-
-scrape_grounding()
-scrape_distraction()
+# scrape_grounding()
+# scrape_distraction()
+scrape_selfcare()
