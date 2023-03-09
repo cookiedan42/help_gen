@@ -21,7 +21,7 @@ def clean_distraction(body):
     effort_list = []
     for i in body.children:
         if i.text.strip()[:-2].isdecimal():
-            new_tag = BeautifulSoup.new_tag("p")
+            new_tag = BeautifulSoup("").new_tag("p")
             effort_list += [new_tag]
         elif i.text == "":
             pass
@@ -69,3 +69,4 @@ def scrape_distraction():
 
 
 scrape_grounding()
+scrape_distraction()
