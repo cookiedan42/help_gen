@@ -23,7 +23,7 @@ export default class GroundingButton extends Component {
         return (
             <div class="areaDiv" >
                 <h1>Grounding tips</h1>
-                <button style={{height:"50px", width:"50%"}} onClick={()=>this.handleClick()}> generate</button>
+                <button style={{height:"50px", width:"25%", minWidth:"200px"}} onClick={()=>this.handleClick()}> generate</button>
                 <br/>
                 <div dangerouslySetInnerHTML={{ __html: this.state.body }}></div>
             </div>
